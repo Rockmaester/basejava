@@ -8,6 +8,7 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
 
     void clear() {
+        Arrays.fill(storage, null);
     }
 
     void save(Resume r) {
@@ -16,14 +17,37 @@ public class ArrayStorage {
 
     Resume get(String uuid) {
         Resume resume = null;
-        for(Resume element : getAll()){
-            if(element.uuid.equals(uuid)) resume = element;
-            break;
+        for (Resume element : getAll()) {
+            if (element.uuid.equals(uuid)) resume = element;
         }
         return resume;
     }
 
     void delete(String uuid) {
+        Arrays.sort(storage, new Comparator<Resume>() {
+            @Override
+            public int compare(Resume o1, Resume o2) {
+                int result = 0;
+                if (o1 == null && o2 == null) {
+                    result = 0;
+                }
+                if (o1 == null) {
+                    result = 1;
+                }
+                if (o2 == null) {
+                    result = -1;
+                }
+                return result;
+            }
+        });
+
+        for (int i = 0; i < storage.length; i++) {
+            if (storage[i].uuid.equals(uuid)) {
+                storage[i] = null;
+                break;
+            }
+        }
+
     }
 
     /**
@@ -35,13 +59,13 @@ public class ArrayStorage {
             @Override
             public int compare(Resume o1, Resume o2) {
                 int result = 0;
-                if(o1 == null && o2 == null){
+                if (o1 == null && o2 == null) {
                     result = 0;
                 }
-                if (o1 == null){
+                if (o1 == null) {
                     result = 1;
                 }
-                if (o2 == null){
+                if (o2 == null) {
                     result = -1;
                 }
                 return result;
@@ -50,8 +74,8 @@ public class ArrayStorage {
 
         int count = -1;
 
-        for(Resume element : storage){
-            if(element != null) count++;
+        for (Resume element : storage) {
+            if (element != null) count++;
         }
 
         Resume[] arrayWithoutNull = Arrays.copyOfRange(storage, 0, count + 1);
