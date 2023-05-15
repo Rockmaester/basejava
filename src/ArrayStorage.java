@@ -1,3 +1,6 @@
+import java.util.Arrays;
+import java.util.Comparator;
+
 /**
  * Array based storage for Resumes
  */
@@ -21,7 +24,32 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return new Resume[0];
+
+        Arrays.sort(storage, new Comparator<Resume>() {
+            @Override
+            public int compare(Resume o1, Resume o2) {
+                int result = 0;
+                if(o1 == null && o2 == null){
+                    result = 0;
+                }
+                if (o1 == null){
+                    result = 1;
+                }
+                if (o2 == null){
+                    result = -1;
+                }
+                return result;
+            }
+        });
+
+        int count = -1;
+
+        for(Resume element : storage){
+            if(element != null) count++;
+        }
+
+        Resume[] arrayWithoutNull = Arrays.copyOfRange(storage, 0, count + 1);
+        return arrayWithoutNull;
     }
 
     int size() {
