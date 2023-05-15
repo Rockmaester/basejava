@@ -11,6 +11,7 @@ public class ArrayStorage {
     }
 
     void save(Resume r) {
+        storage[size() + 1] = r;
     }
 
     Resume get(String uuid) {
