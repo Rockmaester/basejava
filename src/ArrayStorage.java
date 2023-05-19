@@ -5,14 +5,17 @@ import java.util.Comparator;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
+    int size;
     Resume[] storage = new Resume[10000];
 
     void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, size, null);
+        size = 0;
     }
 
-    void save(Resume r) {
-        storage[size() + 1] = r;
+    void save(Resume resume) {
+        storage[size] = resume;
+        size++;
     }
 
     Resume get(String uuid) {
@@ -24,65 +27,25 @@ public class ArrayStorage {
     }
 
     void delete(String uuid) {
-        Arrays.sort(storage, new Comparator<Resume>() {
-            @Override
-            public int compare(Resume o1, Resume o2) {
-                int result = 0;
-                if (o1 == null && o2 == null) {
-                    result = 0;
-                }
-                if (o1 == null) {
-                    result = 1;
-                }
-                if (o2 == null) {
-                    result = -1;
-                }
-                return result;
-            }
-        });
-
-        for (int i = 0; i < storage.length; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                storage[i] = null;
+                storage[i] = storage[size - 1];
+                storage[size - 1] = null;
                 break;
             }
         }
-
+        size--;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-
-        Arrays.sort(storage, new Comparator<Resume>() {
-            @Override
-            public int compare(Resume o1, Resume o2) {
-                int result = 0;
-                if (o1 == null && o2 == null) {
-                    result = 0;
-                }
-                if (o1 == null) {
-                    result = 1;
-                }
-                if (o2 == null) {
-                    result = -1;
-                }
-                return result;
-            }
-        });
-
-        int count = -1;
-
-        for (Resume element : storage) {
-            if (element != null) count++;
-        }
-
-        Resume[] arrayWithoutNull = Arrays.copyOfRange(storage, 0, count + 1);
+        Resume[] arrayWithoutNull = Arrays.copyOfRange(storage, 0, size);
         return arrayWithoutNull;
     }
 
     int size() {
-        return getAll().length;
+        return size;
     }
 }
