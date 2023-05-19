@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * Array based storage for Resumes
@@ -19,11 +18,10 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        Resume resume = null;
-        for (Resume element : getAll()) {
-            if (element.uuid.equals(uuid)) resume = element;
+        for(int i = 0; i < size; i++){
+            if(storage[i].uuid.equals(uuid)) return storage[i];
         }
-        return resume;
+        return null;
     }
 
     void delete(String uuid) {
@@ -31,18 +29,17 @@ public class ArrayStorage {
             if (storage[i].uuid.equals(uuid)) {
                 storage[i] = storage[size - 1];
                 storage[size - 1] = null;
+                size--;
                 break;
             }
         }
-        size--;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        Resume[] arrayWithoutNull = Arrays.copyOfRange(storage, 0, size);
-        return arrayWithoutNull;
+        return Arrays.copyOfRange(storage, 0, size);
     }
 
     int size() {
