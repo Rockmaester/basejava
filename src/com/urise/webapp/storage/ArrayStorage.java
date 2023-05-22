@@ -9,7 +9,7 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     private int size;
-    private Resume[] storage = new Resume[3];
+    private Resume[] storage = new Resume[10000];
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -26,7 +26,7 @@ public class ArrayStorage {
             storage[size] = resume;
             size++;
         } else {
-            System.out.println("\nРезюме с таким uuid (" + resume.getUuid() + ") уже существует под индексом: " + index);
+            System.out.println("\nРезюме с таким uuid (\"" + resume.getUuid() + "\") уже существует под индексом: " + index);
         }
     }
 
@@ -35,7 +35,7 @@ public class ArrayStorage {
         Resume currentResume = get(resume.getUuid());
         // что-то делаем с currentResume (update)
         storage[index] = currentResume;
-        System.out.println("Резюме " + resume.getUuid() + " обновлено.");
+        System.out.println("Резюме \"" + resume.getUuid() + "\" обновлено.");
     }
 
     public Resume get(String uuid) {
@@ -43,7 +43,7 @@ public class ArrayStorage {
         if((index = resumeIsExist(uuid)) != -1){
             return storage[index];
         } else {
-            System.out.println("Резюме с uuid "+ uuid + " нет в списке!");
+            System.out.println("Резюме с uuid \"" + uuid + "\" нет в списке!");
         }
         return null;
     }
@@ -55,7 +55,7 @@ public class ArrayStorage {
             storage[size-1] = null;
             size--;
         } else {
-            System.out.println("\nВы пытаетесь удалить резюме по uuid (" + uuid + "), которого нет в списке резюме!");
+            System.out.println("\nВы пытаетесь удалить резюме по uuid (\"" + uuid + "\"), которого нет в списке резюме!");
         }
     }
 
