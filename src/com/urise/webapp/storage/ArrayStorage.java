@@ -9,7 +9,8 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     private int size;
-    private Resume[] storage = new Resume[10000];
+    private final int STORAGE_LIMIT = 10000;
+    private final Resume[] storage = new Resume[STORAGE_LIMIT];
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -17,40 +18,41 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
+        int index = getIndex(resume.getUuid());
         if(size == storage.length){
             System.out.println("\nНевозможно сохранить. Лимит хранилища превышен!");
-            return;
-        }
-        int index;
-        if((index = resumeIsExist(resume.getUuid())) == -1) {
-            storage[size] = resume;
-            size++;
         } else {
-            System.out.println("\nРезюме с таким uuid (\"" + resume.getUuid() + "\") уже существует под индексом: " + index);
+            if(index != -1){
+                System.out.println("\nРезюме с таким uuid (\"" + resume.getUuid() + "\") уже существует под индексом: " + index);
+            } else {
+                storage[size] = resume;
+                size++;
+            }
         }
     }
 
     public void update(Resume resume){
-        int index = resumeIsExist(resume.getUuid());
-        Resume currentResume = get(resume.getUuid());
-        // что-то делаем с currentResume (update)
-        storage[index] = currentResume;
+        int index = getIndex(resume.getUuid());
+        if(index == -1){
+            System.out.println("Резюме с uuid \"" + resume.getUuid() + "\" нет в списке!");
+            return;
+        }
+        storage[index] = resume;
         System.out.println("Резюме \"" + resume.getUuid() + "\" обновлено.");
     }
 
     public Resume get(String uuid) {
-        int index;
-        if((index = resumeIsExist(uuid)) != -1){
+        int index = getIndex(uuid);
+        if(index != -1){
             return storage[index];
-        } else {
-            System.out.println("Резюме с uuid \"" + uuid + "\" нет в списке!");
         }
+        System.out.println("Резюме с uuid \"" + uuid + "\" нет в списке!");
         return null;
     }
 
     public void delete(String uuid) {
-        int index;
-        if((index = resumeIsExist(uuid)) != -1){
+        int index = getIndex(uuid);
+        if(index != -1){
             storage[index] = storage[size-1];
             storage[size-1] = null;
             size--;
@@ -59,7 +61,7 @@ public class ArrayStorage {
         }
     }
 
-    public int resumeIsExist(String uuid){
+    public int getIndex(String uuid){
         for(int i = 0; i < size; i++){
             if(storage[i].getUuid().equals(uuid)){
                 return i;
