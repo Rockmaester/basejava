@@ -21,13 +21,11 @@ public class ArrayStorage {
         int index = getIndex(resume.getUuid());
         if(size == storage.length){
             System.out.println("\nНевозможно сохранить. Лимит хранилища превышен!");
+        } else if(index != -1){
+            System.out.println("\nРезюме с таким uuid (\"" + resume.getUuid() + "\") уже существует под индексом: " + index);
         } else {
-            if(index != -1){
-                System.out.println("\nРезюме с таким uuid (\"" + resume.getUuid() + "\") уже существует под индексом: " + index);
-            } else {
-                storage[size] = resume;
-                size++;
-            }
+            storage[size] = resume;
+            size++;
         }
     }
 
