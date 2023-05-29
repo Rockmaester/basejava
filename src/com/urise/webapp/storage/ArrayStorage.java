@@ -9,6 +9,13 @@ import java.util.Arrays;
  */
 public class ArrayStorage extends AbstractArrayStorage{
 
+    @Override
+    protected void saveInStorage(Resume resume, int index){
+        // второй параметр не используется
+        storage[size] = resume;
+        size++;
+    }
+
     protected int getIndex(String uuid){
         for(int i = 0; i < size; i++){
             if(storage[i].getUuid().equals(uuid)){

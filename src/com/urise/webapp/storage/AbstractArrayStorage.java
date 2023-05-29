@@ -15,17 +15,31 @@ public abstract class AbstractArrayStorage implements Storage{
         size = 0;
     }
 
-    public void save(Resume resume) {
+//    public void save(Resume resume) {
+//        int index = getIndex(resume.getUuid());
+//        if(size == storage.length){
+//            System.out.println("\nНевозможно сохранить. Лимит хранилища превышен!");
+//        } else if(index != -1){
+//            System.out.println("\nРезюме с таким uuid (\"" + resume.getUuid() + "\") уже существует под индексом: " + index);
+//        } else {
+//            storage[size] = resume;
+//            size++;
+//        }
+//    }
+
+    public final void save(Resume resume) {
         int index = getIndex(resume.getUuid());
         if(size == storage.length){
             System.out.println("\nНевозможно сохранить. Лимит хранилища превышен!");
-        } else if(index != -1){
+        } else if(index > -1){
             System.out.println("\nРезюме с таким uuid (\"" + resume.getUuid() + "\") уже существует под индексом: " + index);
         } else {
-            storage[size] = resume;
-            size++;
+            saveInStorage(resume, index);
         }
     }
+
+    protected abstract void saveInStorage(Resume resume, int index);
+
 
     public void update(Resume resume){
         int index = getIndex(resume.getUuid());
