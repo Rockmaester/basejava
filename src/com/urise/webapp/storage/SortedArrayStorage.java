@@ -7,15 +7,16 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage{
 
     @Override
-    public void save(Resume resume) {
-        int index = binaryInsert(Integer.parseInt(resume.getUuid()));
-        shift(resume, index);
-
+    public void saveInStorage(Resume resume, int index) {
+        int insertionPoint = - 1 - index;
+        shiftExtention(resume, insertionPoint);
     }
 
     @Override
-    public void update(Resume resume) {
-
+    protected void deleteInStorage(String uuid, int index) {
+        storage[index] = null;
+        shiftConstriction(index);
+        size--;
     }
 
     @Override
@@ -25,39 +26,18 @@ public class SortedArrayStorage extends AbstractArrayStorage{
         return Arrays.binarySearch(storage, 0, size, resume);
     }
 
-    public int binaryInsert(int inValue) {
-        int leftIndex = 0;
-        int rightIndex = size - 1;
-        int index;
-
-        while (true) {
-            index = (rightIndex + leftIndex) / 2;
-            if (size == 0) {
-                return index = 0;
-            }
-            if (leftIndex == index) {
-                if (Integer.parseInt(storage[index].getUuid()) > inValue) {
-                    return index;
-                }
-            }
-            if (Integer.parseInt(storage[index].getUuid()) < inValue) {
-                leftIndex = index + 1;
-                if (leftIndex > rightIndex) {
-                    return index += 1;
-                }
-            } else if (leftIndex > rightIndex) {
-                return index;
-            } else {
-                rightIndex = index - 1;
-            }
-        }
-    }
-
-    public void shift(Resume value, int index) {
+    private void shiftExtention(Resume value, int index) {
         for (int i = size; i > index; i--) {
             storage[i] = storage[i - 1];
         }
         storage[index] = value;
         size++;
+    }
+
+    private void shiftConstriction(int index){
+        for(int i = index + 1; i < size; i++){
+            storage[i-1] = storage[i];
+        }
+        storage[size-1] = null;
     }
 }
