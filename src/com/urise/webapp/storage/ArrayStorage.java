@@ -10,17 +10,14 @@ import java.util.Arrays;
 public class ArrayStorage extends AbstractArrayStorage{
 
     @Override
-    protected void saveInStorage(Resume resume, int index){
+    protected void saveResume(Resume resume, int index){
         // второй параметр не используется
         storage[size] = resume;
-        size++;
     }
 
     @Override
-    public void deleteInStorage(String uuid, int index) {
+    public void deleteResume(int index) {
         storage[index] = storage[size-1];
-        storage[size-1] = null;
-        size--;
     }
 
     protected int getIndex(String uuid){

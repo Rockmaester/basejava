@@ -10,7 +10,7 @@ public abstract class AbstractArrayStorage implements Storage{
     protected static final int STORAGE_LIMIT = 10000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
 
-    public void clear() {
+    public final void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
@@ -22,13 +22,14 @@ public abstract class AbstractArrayStorage implements Storage{
         } else if(index > -1){
             System.out.println("\nРезюме с таким uuid (\"" + resume.getUuid() + "\") уже существует под индексом: " + index);
         } else {
-            saveInStorage(resume, index);
+            saveResume(resume, index);
+            size++;
         }
     }
 
-    protected abstract void saveInStorage(Resume resume, int index);
+    protected abstract void saveResume(Resume resume, int index);
 
-    public void update(Resume resume){
+    public final void update(Resume resume){
         int index = getIndex(resume.getUuid());
         if(index < 0){
             System.out.println("Резюме с uuid \"" + resume.getUuid() + "\" нет в списке!");
@@ -43,12 +44,14 @@ public abstract class AbstractArrayStorage implements Storage{
         if(index < 0){
             System.out.println("\nВы пытаетесь удалить резюме по uuid (\"" + uuid + "\"), которого нет в списке резюме!");
         } else {
-            deleteInStorage(uuid, index);
+            deleteResume(index);
+            storage[size - 1] = null;
+            size--;
         }
     }
-    protected abstract void deleteInStorage(String uuid, int index);
+    protected abstract void deleteResume(int index);
 
-    public Resume get(String uuid) {
+    public final Resume get(String uuid) {
         int index = getIndex(uuid);
         if(index > -1){
             return storage[index];
@@ -59,13 +62,11 @@ public abstract class AbstractArrayStorage implements Storage{
 
     protected abstract int getIndex(String uuid);
 
-    public Resume[] getAll() {
+    public final Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
     }
 
-    public int size() {
+    public final int size() {
         return size;
     }
-
-
 }

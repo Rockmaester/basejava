@@ -7,16 +7,17 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage{
 
     @Override
-    public void saveInStorage(Resume resume, int index) {
+    public void saveResume(Resume resume, int index) {
         int insertionPoint = - 1 - index;
-        shiftExtention(resume, insertionPoint);
+        if(size > 0){
+            System.arraycopy(storage, insertionPoint, storage, insertionPoint + 1, size - insertionPoint);
+        }
+        storage[insertionPoint] = resume;
     }
 
     @Override
-    protected void deleteInStorage(String uuid, int index) {
-        storage[index] = null;
-        shiftConstriction(index);
-        size--;
+    protected void deleteResume(int index) {
+        System.arraycopy(storage, index + 1, storage, index, size - (index + 1));
     }
 
     @Override
@@ -24,20 +25,5 @@ public class SortedArrayStorage extends AbstractArrayStorage{
         Resume resume = new Resume();
         resume.setUuid(uuid);
         return Arrays.binarySearch(storage, 0, size, resume);
-    }
-
-    private void shiftExtention(Resume value, int index) {
-        for (int i = size; i > index; i--) {
-            storage[i] = storage[i - 1];
-        }
-        storage[index] = value;
-        size++;
-    }
-
-    private void shiftConstriction(int index){
-        for(int i = index + 1; i < size; i++){
-            storage[i-1] = storage[i];
-        }
-        storage[size-1] = null;
     }
 }
