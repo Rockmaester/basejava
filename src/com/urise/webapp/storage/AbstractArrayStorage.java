@@ -20,6 +20,7 @@ public abstract class AbstractArrayStorage implements Storage{
         if(size == storage.length){
             System.out.println("\nНевозможно сохранить. Лимит хранилища превышен!");
         } else if(index > -1){
+//            throw new ExistStrorageException(resume.getUuid(), index);
             System.out.println("\nРезюме с таким uuid (\"" + resume.getUuid() + "\") уже существует под индексом: " + index);
         } else {
             saveResume(resume, index);
@@ -32,16 +33,20 @@ public abstract class AbstractArrayStorage implements Storage{
     public final void update(Resume resume){
         int index = getIndex(resume.getUuid());
         if(index < 0){
+//            throw new NotExistStorageException(resume.getUuid());
             System.out.println("Резюме с uuid \"" + resume.getUuid() + "\" нет в списке!");
             return;
+        } else {
+            storage[index] = resume;
+            System.out.println("Резюме \"" + resume.getUuid() + "\" обновлено.");
         }
-        storage[index] = resume;
-        System.out.println("Резюме \"" + resume.getUuid() + "\" обновлено.");
+
     }
 
     public final void delete(String uuid) {
         int index = getIndex(uuid);
         if(index < 0){
+//            throw new NotExistStorageException(uuid);
             System.out.println("\nВы пытаетесь удалить резюме по uuid (\"" + uuid + "\"), которого нет в списке резюме!");
         } else {
             deleteResume(index);
@@ -56,6 +61,7 @@ public abstract class AbstractArrayStorage implements Storage{
         if(index > -1){
             return storage[index];
         }
+//        throw new NotExistStorageException(uuid);
         System.out.println("Резюме с uuid \"" + uuid + "\" нет в списке!");
         return null;
     }
