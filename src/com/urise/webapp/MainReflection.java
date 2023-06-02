@@ -1,2 +1,4 @@
-package com.urise.webapp;public class MainReflection {
+package com.urise.webapp;
+
+public class MainReflection {
 }
