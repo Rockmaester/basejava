@@ -2,7 +2,6 @@ package com.urise.webapp;
 
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.AbstractArrayStorage;
-import com.urise.webapp.storage.ArrayStorage;
 import com.urise.webapp.storage.SortedArrayStorage;
 
 import java.io.BufferedReader;
@@ -39,14 +38,14 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    resume = new Resume();
-                    resume.setUuid(uuid);
+                    resume = new Resume(uuid);
+//                    resume.setUuid(uuid);
                     ARRAY_STORAGE.save(resume);
                     printAll();
                     break;
                 case "update":
-                    resume = new Resume();
-                    resume.setUuid(uuid);
+                    resume = new Resume(uuid);
+//                    resume.setUuid(uuid);
                     ARRAY_STORAGE.update(resume);
                     printAll();
                     break;
