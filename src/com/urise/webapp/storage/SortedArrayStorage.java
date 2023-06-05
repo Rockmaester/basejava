@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage{
 
     @Override
-    public void saveResume(Resume resume, int index) {
+    protected void saveResume(Resume resume, int index) {
         int insertionPoint = - 1 - index;
         if(size > 0){
             System.arraycopy(storage, insertionPoint, storage, insertionPoint + 1, size - insertionPoint);

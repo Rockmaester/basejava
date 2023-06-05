@@ -16,13 +16,9 @@ public class Resume implements Comparable<Resume>{
         return uuid;
     }
 
-//    public void setUuid(String uuid) {
-//        this.uuid = uuid;
-//    }
-
     @Override
     public String toString() {
-        return uuid;
+        return "резюме под номером " + uuid;
     }
 
     @Override

@@ -2,9 +2,8 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.Arrays;
-
 public interface Storage {
+    Resume[] getStorage();
     void clear();
 
     void save(Resume resume);
