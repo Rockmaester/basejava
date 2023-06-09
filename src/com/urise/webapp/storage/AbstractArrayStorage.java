@@ -17,6 +17,7 @@ public abstract class AbstractArrayStorage implements Storage{
         return storage;
     }
 
+
     public final void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
