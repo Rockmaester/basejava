@@ -14,7 +14,7 @@ import static org.junit.Assert.fail;
 
 public abstract class AbstractArrayStorageTest{
 
-    protected final     Storage storage;
+    protected final Storage storage;
     protected static final String UUID_1 = "uuid1";
     protected static final String UUID_2 = "uuid2";
     protected static final String UUID_3 = "uuid3";
@@ -117,8 +117,9 @@ public abstract class AbstractArrayStorageTest{
 
     @Test(expected = LimitExceedException.class)
     public void storageOverFlow(){
+        storage.clear();
         try {
-            for(int i = 3; i < storage.getStorage().length; i++){
+            for(int i = 0; i < AbstractArrayStorage.STORAGE_LIMIT; i++){
                 storage.save(new Resume(UUID.randomUUID().toString()));
             }
         } catch (LimitExceedException e) {
