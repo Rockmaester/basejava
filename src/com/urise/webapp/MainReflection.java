@@ -20,10 +20,11 @@ public class MainReflection {
 
         // TODO: invoke resume.toString via reflection
 
+        // 1 способ
         Method[] methods = resume.getClass().getDeclaredMethods();
         Method expectedMethod = null;
         for(Method method : methods){
-            if(method.getName().equals("toString")){
+            if (method.getName().equals("toString")) {
                 expectedMethod = method;
             }
         }
@@ -33,5 +34,18 @@ public class MainReflection {
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+
+        //2 способ
+        try {
+            Method method = resume.getClass().getMethod("toString");
+            Object result = method.invoke(resume);
+            System.out.println(result);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 }
