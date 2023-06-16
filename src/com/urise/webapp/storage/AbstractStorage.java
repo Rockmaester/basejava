@@ -63,8 +63,4 @@ public abstract class AbstractStorage implements Storage {
     }
 
     protected abstract Object getAllInStorage();
-
-
-
-
 }
