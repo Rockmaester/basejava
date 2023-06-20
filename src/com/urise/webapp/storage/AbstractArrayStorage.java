@@ -18,38 +18,32 @@ public abstract class AbstractArrayStorage extends AbstractStorage{
     }
 
     @Override
-    protected final void saveInStorage(Resume resume, int index) {
+    protected final void saveInStorage(Resume resume, Object searchKey) {
         if(size == storage.length){
             throw new LimitExceedException();
         } else {
-            saveResume(resume, index);
+            saveResume(resume, (int)searchKey);
             size++;
         }
     }
 
-    protected abstract void saveResume(Resume resume, int index);
-
     @Override
-    protected final void updateResume(Resume resume, int index){
-        storage[index] = resume;
+    protected final void updateResume(Resume resume, Object searchKey){
+        storage[(int)searchKey] = resume;
         System.out.println("Резюме \"" + resume.getUuid() + "\" обновлено.");
     }
 
     @Override
-    public final void deleteInStorage(String uuid, int index) {
-            deleteResume(index);
+    public final void deleteInStorage(String uuid, Object searchKey) {
+            deleteResume((int)searchKey);
             storage[size - 1] = null;
             size--;
     }
-    protected abstract void deleteResume(int index);
 
     @Override
-    protected final Resume getInStorage(String uuid, int index) {
-            return storage[index];
+    protected final Resume getInStorage(String uuid, Object searchKey) {
+            return storage[(int)searchKey];
     }
-
-    protected abstract int getIndex(String uuid);
-
     @Override
     protected final Resume[] getAllInStorage() {
         return Arrays.copyOfRange(storage, 0, size);
@@ -58,4 +52,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage{
     public final int size() {
         return size;
     }
+
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return (int)searchKey > -1;
+    }
+
+    protected abstract void saveResume(Resume resume, int index);
+
+    protected abstract void deleteResume(int index);
+
 }
