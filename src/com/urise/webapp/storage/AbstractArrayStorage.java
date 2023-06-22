@@ -18,7 +18,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage{
     }
 
     @Override
-    protected final void saveInStorage(Resume resume, Object searchKey) {
+    protected final void doSave(Resume resume, Object searchKey) {
         if(size == storage.length){
             throw new LimitExceedException();
         } else {
@@ -28,20 +28,20 @@ public abstract class AbstractArrayStorage extends AbstractStorage{
     }
 
     @Override
-    protected final void updateResume(Resume resume, Object searchKey){
+    protected final void doUpdate(Resume resume, Object searchKey){
         storage[(int)searchKey] = resume;
         System.out.println("Резюме \"" + resume.getUuid() + "\" обновлено.");
     }
 
     @Override
-    public final void deleteInStorage(String uuid, Object searchKey) {
+    public final void doDelete(String uuid, Object searchKey) {
             deleteResume((int)searchKey);
             storage[size - 1] = null;
             size--;
     }
 
     @Override
-    protected final Resume getInStorage(String uuid, Object searchKey) {
+    protected final Resume doGet(String uuid, Object searchKey) {
             return storage[(int)searchKey];
     }
     @Override

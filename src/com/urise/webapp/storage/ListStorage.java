@@ -15,7 +15,7 @@ public class ListStorage extends AbstractStorage{
     }
 
     @Override
-    protected void saveInStorage(Resume resume, Object searchKey) {
+    protected void doSave(Resume resume, Object searchKey) {
         storage.add(resume);
     }
 
@@ -36,17 +36,17 @@ public class ListStorage extends AbstractStorage{
     }
 
     @Override
-    protected void updateResume(Resume resume, Object searchKey) {
+    protected void doUpdate(Resume resume, Object searchKey) {
         storage.set((int)searchKey,resume);
     }
 
     @Override
-    protected void deleteInStorage(String uuid, Object searchKey) {
+    protected void doDelete(String uuid, Object searchKey) {
         storage.remove((int)searchKey);
     }
 
     @Override
-    protected Resume getInStorage(String uuid, Object searchKey) {
+    protected Resume doGet(String uuid, Object searchKey) {
         return storage.get((int)searchKey);
     }
 
