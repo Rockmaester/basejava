@@ -25,5 +25,4 @@ public class SortedArrayStorage extends AbstractArrayStorage{
         Resume resume = new Resume(uuid, null);
         return Arrays.binarySearch(storage, 0, size, resume);
     }
-
 }

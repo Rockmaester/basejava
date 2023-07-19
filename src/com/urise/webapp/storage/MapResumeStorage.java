@@ -23,7 +23,6 @@ public class MapResumeStorage extends AbstractMapStorage{
         }
     }
 
-
     @Override
     protected Object getSearchKey(String uuid) {
         for(Map.Entry<String, Resume> pair : storage.entrySet()){

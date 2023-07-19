@@ -6,8 +6,7 @@ public class ArrayStorageTest extends AbstractArrayStorageTest{
     }
 
     @Override
-    public void getAllSorted() {
-
+    public void getAllSorted(){
     }
 }
 

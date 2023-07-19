@@ -7,6 +7,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class AbstractStorageTest {
     protected final Storage storage;
     protected static final String UUID_1 = "uuid1";
@@ -35,7 +38,17 @@ public abstract class AbstractStorageTest {
     public abstract void getAll();
 
     @Test
-    public abstract void getAllSorted();
+    public void getAllSorted(){
+        storage.save(RESUME_4);
+
+        List<Resume> testList = new ArrayList<>();
+        testList.add(RESUME_3);
+        testList.add(RESUME_1);
+        testList.add(RESUME_4);
+        testList.add(RESUME_2);
+
+        Assert.assertEquals(testList, storage.getAllSorted());
+    }
 
     @Test
     public void clear() {
@@ -97,14 +110,6 @@ public abstract class AbstractStorageTest {
     public void getNotExisting() {
         storage.get(UUID_NOT_EXIST);
     }
-
-//    @Test
-//    public void getAllSorted(){
-//        storage.save(RESUME_4);
-//
-//
-////        Assert.assertEquals();
-//    }
 
     @Test
     public void size() {

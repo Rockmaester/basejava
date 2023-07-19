@@ -31,8 +31,5 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest{
     public void getAll() {
         Resume[] testArray = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
         Assert.assertArrayEquals(testArray, (Resume[])storage.getAll());
-//        Assert.assertEquals(Arrays.asList(testArray), storage.getAll());
     }
-
-
 }
