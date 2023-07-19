@@ -5,7 +5,6 @@ import com.urise.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.UUID;
 
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest{
@@ -31,8 +30,9 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest{
     @Test
     public void getAll() {
         Resume[] testArray = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
-//        Assert.assertArrayEquals(testArray, (Resume[])storage.getAll());
-        Assert.assertEquals(Arrays.asList(testArray), storage.getAll());
+        Assert.assertArrayEquals(testArray, (Resume[])storage.getAll());
+//        Assert.assertEquals(Arrays.asList(testArray), storage.getAll());
     }
+
 
 }

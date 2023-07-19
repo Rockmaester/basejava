@@ -19,4 +19,10 @@ public class ListStorageTest extends AbstractStorageTest{
         List<Resume> testList = new ArrayList<>(Arrays.asList(RESUME_1, RESUME_2, RESUME_3));
         Assert.assertEquals(testList, storage.getAll());
     }
+
+    @Override
+    public void getAllSorted() {
+
+    }
+
 }

@@ -50,12 +50,13 @@ public class ListStorage extends AbstractStorage{
         return storage.get((int)searchKey);
     }
 
-//    @Override
-//    protected List<Resume> getAllInStorage() {
-//        return storage;
-//    }
+    @Override
+    protected List<Resume> getAllInStorage() {
+        return storage;
+    }
 
-    protected final List<Resume> getAllSorted(){
+    @Override
+    public List<Resume> getAllSorted(){
         storage.sort(RESUME_COMPARATOR);
         return storage;
     }

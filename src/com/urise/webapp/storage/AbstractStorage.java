@@ -7,19 +7,6 @@ import com.urise.webapp.model.Resume;
 import java.util.Comparator;
 
 public abstract class AbstractStorage implements Storage {
-/*
-    protected static class ResumeComparator implements Comparator<Resume>{
-        @Override
-        public int compare(Resume o1, Resume o2) {
-            int result = o1.getFullName().compareTo(o2.getFullName());
-            if(result == 0){
-                result = o1.getUuid().compareTo(o2.getUuid());
-            }
-            return result;
-        }
-    }
-    protected static final ResumeComparator RESUME_COMPARATOR = new ResumeComparator();
-*/
 
     protected static final Comparator<Resume> RESUME_COMPARATOR = (o1, o2) -> {
         int result = o1.getFullName().compareTo(o2.getFullName());
@@ -28,7 +15,6 @@ public abstract class AbstractStorage implements Storage {
         }
         return result;
     };
-
 
     protected abstract void clearStorage();
 
@@ -40,8 +26,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Resume doGet(String uuid, Object searchKey);
 
-//    protected abstract Object getAllInStorage();
-    protected abstract Object getAllSorted();
+    protected abstract Object getAllInStorage();
 
     protected abstract Object getSearchKey(String uuid);
 
@@ -72,8 +57,7 @@ public abstract class AbstractStorage implements Storage {
     }
 
     public final Object getAll() {
-//        return getAllInStorage();
-        return getAllSorted();
+        return getAllInStorage();
     }
 
     private Object getExistingSearchKey(String uuid){

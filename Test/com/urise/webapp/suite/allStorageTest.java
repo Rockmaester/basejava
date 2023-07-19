@@ -7,21 +7,11 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        AbstractArrayStorageTest.class,
-        AbstractStorageTest.class,
         ArrayStorageTest.class,
         ListStorageTest.class,
         MapUuidStorageTest.class,
+        MapResumeStorageTest.class,
         SortedArrayStorageTest.class
 })
 public class allStorageTest {
 }
-
-//@Suite.SuiteClasses({
-//        AbstractArrayStorageTest.class,
-//        AbstractStorageTest.class,
-//        ArrayStorageTest.class,
-//        ListStorageTest.class,
-//        MapUuidStorageTest.class,
-//        SortedArrayStorageTest.class
-//})

@@ -13,7 +13,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage{
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
 
 
-
     @Override
     protected void clearStorage() {
         Arrays.fill(storage, 0, size, null);
@@ -47,12 +46,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage{
     protected final Resume doGet(String uuid, Object searchKey) {
             return storage[(int)searchKey];
     }
-//    @Override
-//    protected final Resume[] getAllInStorage() {
-//        return Arrays.copyOfRange(storage, 0, size);
-//    }
 
-    protected final List<Resume> getAllSorted(){
+    @Override
+    protected final Resume[] getAllInStorage() {
+        return Arrays.copyOfRange(storage, 0, size);
+    }
+
+    @Override
+    public List<Resume> getAllSorted(){
 //        List<Resume> list = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(storage, 0, size)));
         List<Resume> list = Arrays.asList(Arrays.copyOfRange(storage, 0, size));
         list.sort(RESUME_COMPARATOR);

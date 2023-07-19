@@ -16,9 +16,8 @@ public abstract class AbstractStorageTest {
     protected static final String UUID_NOT_EXIST = "dummy";
     protected final Resume RESUME_1 = new Resume(UUID_1, "Ivan Ivanov");
     protected final Resume RESUME_2 = new Resume(UUID_2, "Petr Petrov");
-
-    protected final Resume RESUME_3 = new Resume(UUID_3, "Sidor Sidorov");
-    protected final Resume RESUME_4 = new Resume(UUID_4, "Konstantin Konstantinov");
+    protected final Resume RESUME_3 = new Resume(UUID_3, "Alexander Aleksandrov");
+    protected final Resume RESUME_4 = new Resume(UUID_4, "Ivan Ivanov");
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -31,6 +30,12 @@ public abstract class AbstractStorageTest {
         storage.save(RESUME_2);
         storage.save(RESUME_3);
     }
+
+    @Test
+    public abstract void getAll();
+
+    @Test
+    public abstract void getAllSorted();
 
     @Test
     public void clear() {
@@ -52,7 +57,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume upd = new Resume(UUID_1, "Alexander Aleksandrov");
+        Resume upd = new Resume(UUID_1, "Sidor Sidorov");
         storage.update(upd);
         Assert.assertEquals(RESUME_1, upd);
         Assert.assertNotSame(RESUME_1, upd);
@@ -93,8 +98,13 @@ public abstract class AbstractStorageTest {
         storage.get(UUID_NOT_EXIST);
     }
 
-    @Test
-    public abstract void getAll();
+//    @Test
+//    public void getAllSorted(){
+//        storage.save(RESUME_4);
+//
+//
+////        Assert.assertEquals();
+//    }
 
     @Test
     public void size() {
