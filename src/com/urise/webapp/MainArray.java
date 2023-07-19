@@ -38,13 +38,13 @@ public class MainArray {
                     System.out.println(ARRAY_STORAGE.size());
                     break;
                 case "save":
-                    resume = new Resume(uuid);
+                    resume = new Resume(uuid, "name 1");
 //                    resume.setUuid(uuid);
                     ARRAY_STORAGE.save(resume);
                     printAll();
                     break;
                 case "update":
-                    resume = new Resume(uuid);
+                    resume = new Resume(uuid, "name 2");
 //                    resume.setUuid(uuid);
                     ARRAY_STORAGE.update(resume);
                     printAll();

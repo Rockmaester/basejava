@@ -4,6 +4,7 @@ import com.urise.webapp.exception.LimitExceedException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage{
 
@@ -44,9 +45,16 @@ public abstract class AbstractArrayStorage extends AbstractStorage{
     protected final Resume doGet(String uuid, Object searchKey) {
             return storage[(int)searchKey];
     }
-    @Override
-    protected final Resume[] getAllInStorage() {
-        return Arrays.copyOfRange(storage, 0, size);
+//    @Override
+//    protected final Resume[] getAllInStorage() {
+//        return Arrays.copyOfRange(storage, 0, size);
+//    }
+
+    protected final List<Resume> getAllSorted(){
+//        List<Resume> list = new ArrayList<>(Arrays.asList(Arrays.copyOfRange(storage, 0, size)));
+        List<Resume> list = Arrays.asList(Arrays.copyOfRange(storage, 0, size));
+        list.sort(RESUME_COMPARATOR);
+        return list;
     }
 
     public final int size() {

@@ -4,7 +4,48 @@ import com.urise.webapp.exception.ExistStrorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
+import java.util.Comparator;
+
 public abstract class AbstractStorage implements Storage {
+/*
+    protected static class ResumeComparator implements Comparator<Resume>{
+        @Override
+        public int compare(Resume o1, Resume o2) {
+            int result = o1.getFullName().compareTo(o2.getFullName());
+            if(result == 0){
+                result = o1.getUuid().compareTo(o2.getUuid());
+            }
+            return result;
+        }
+    }
+    protected static final ResumeComparator RESUME_COMPARATOR = new ResumeComparator();
+*/
+
+    protected static final Comparator<Resume> RESUME_COMPARATOR = (o1, o2) -> {
+        int result = o1.getFullName().compareTo(o2.getFullName());
+        if(result == 0){
+            result = o1.getUuid().compareTo(o2.getUuid());
+        }
+        return result;
+    };
+
+
+    protected abstract void clearStorage();
+
+    protected abstract void doSave(Resume resume, Object searchKey);
+
+    protected abstract void doUpdate(Resume resume, Object searchKey);
+
+    protected abstract void doDelete(String uuid, Object searchKey);
+
+    protected abstract Resume doGet(String uuid, Object searchKey);
+
+//    protected abstract Object getAllInStorage();
+    protected abstract Object getAllSorted();
+
+    protected abstract Object getSearchKey(String uuid);
+
+    protected abstract boolean isExist(Object searchKey);
 
     public final void clear() {
         clearStorage();
@@ -31,7 +72,8 @@ public abstract class AbstractStorage implements Storage {
     }
 
     public final Object getAll() {
-        return getAllInStorage();
+//        return getAllInStorage();
+        return getAllSorted();
     }
 
     private Object getExistingSearchKey(String uuid){
@@ -51,21 +93,4 @@ public abstract class AbstractStorage implements Storage {
             throw new ExistStrorageException(uuid, searchKey);
         }
     }
-
-    protected abstract void clearStorage();
-
-    protected abstract void doSave(Resume resume, Object searchKey);
-
-    protected abstract void doUpdate(Resume resume, Object searchKey);
-
-    protected abstract void doDelete(String uuid, Object searchKey);
-
-    protected abstract Resume doGet(String uuid, Object searchKey);
-
-    protected abstract Object getAllInStorage();
-
-    protected abstract Object getSearchKey(String uuid);
-
-    protected abstract boolean isExist(Object searchKey);
-
 }

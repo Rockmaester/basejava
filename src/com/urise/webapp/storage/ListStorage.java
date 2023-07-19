@@ -2,12 +2,12 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage{
 
-    protected final List<Resume> storage = new LinkedList<>();
+    protected final List<Resume> storage = new ArrayList<>();
 
     @Override
     protected void clearStorage() {
@@ -50,8 +50,13 @@ public class ListStorage extends AbstractStorage{
         return storage.get((int)searchKey);
     }
 
-    @Override
-    protected List<Resume> getAllInStorage() {
+//    @Override
+//    protected List<Resume> getAllInStorage() {
+//        return storage;
+//    }
+
+    protected final List<Resume> getAllSorted(){
+        storage.sort(RESUME_COMPARATOR);
         return storage;
     }
 

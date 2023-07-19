@@ -14,11 +14,11 @@ public abstract class AbstractStorageTest {
     protected static final String UUID_3 = "uuid3";
     protected static final String UUID_4 = "uuid4";
     protected static final String UUID_NOT_EXIST = "dummy";
-    protected final Resume RESUME_1 = new Resume(UUID_1);
-    protected final Resume RESUME_2 = new Resume(UUID_2);
+    protected final Resume RESUME_1 = new Resume(UUID_1, "Ivan Ivanov");
+    protected final Resume RESUME_2 = new Resume(UUID_2, "Petr Petrov");
 
-    protected final Resume RESUME_3 = new Resume(UUID_3);
-    protected final Resume RESUME_4 = new Resume(UUID_4);
+    protected final Resume RESUME_3 = new Resume(UUID_3, "Sidor Sidorov");
+    protected final Resume RESUME_4 = new Resume(UUID_4, "Konstantin Konstantinov");
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -52,7 +52,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume upd = new Resume(UUID_1);
+        Resume upd = new Resume(UUID_1, "Alexander Aleksandrov");
         storage.update(upd);
         Assert.assertEquals(RESUME_1, upd);
         Assert.assertNotSame(RESUME_1, upd);
