@@ -5,16 +5,11 @@ import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Comparator;
+import java.util.List;
 
 public abstract class AbstractStorage implements Storage {
 
-    protected static final Comparator<Resume> RESUME_COMPARATOR = (o1, o2) -> {
-        int result = o1.getFullName().compareTo(o2.getFullName());
-        if(result == 0){
-            result = o1.getUuid().compareTo(o2.getUuid());
-        }
-        return result;
-    };
+    protected static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
 
     protected abstract void clearStorage();
 
@@ -28,36 +23,51 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract Object getAllInStorage();
 
+    protected abstract List<Resume> getAllInList();
+
     protected abstract Object getSearchKey(String uuid);
 
     protected abstract boolean isExist(Object searchKey);
 
+    @Override
     public final void clear() {
         clearStorage();
     }
 
+    @Override
     public final void save(Resume resume) {
         Object searchKey = getNotExistingSearchKey(resume.getUuid());
         doSave(resume, searchKey);
     }
 
+    @Override
     public final void update(Resume resume) {
         Object searchKey = getExistingSearchKey(resume.getUuid());
         doUpdate(resume, searchKey);
     }
 
+    @Override
     public final void delete(String uuid) {
         Object searchKey = getExistingSearchKey(uuid);
         doDelete(uuid, searchKey);
     }
 
+    @Override
     public final Resume get(String uuid) {
         Object searchKey = getExistingSearchKey(uuid);
         return doGet(uuid, searchKey);
     }
 
+    @Override
     public final Object getAll() {
         return getAllInStorage();
+    }
+
+    @Override
+    public final List<Resume> getAllSorted() {
+        List<Resume> list = getAllInList();
+        list.sort(RESUME_COMPARATOR);
+        return list;
     }
 
     private Object getExistingSearchKey(String uuid){

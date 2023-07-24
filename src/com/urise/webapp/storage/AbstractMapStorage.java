@@ -34,12 +34,11 @@ public abstract class AbstractMapStorage extends AbstractStorage{
     }
 
     @Override
-    public List<Resume> getAllSorted() {
+    protected List<Resume> getAllInList() {
         List<Resume> list = new ArrayList<>();
         for(Map.Entry<String, Resume> pair : storage.entrySet()){
             list.add(pair.getValue());
         }
-        list.sort(RESUME_COMPARATOR);
         return list;
     }
 
