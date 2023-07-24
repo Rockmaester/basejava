@@ -45,7 +45,5 @@ public class MainReflection {
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 }

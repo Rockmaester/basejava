@@ -35,9 +35,6 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public abstract void getAll();
-
-    @Test
     public void getAllSorted(){
         storage.save(RESUME_4);
 

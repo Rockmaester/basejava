@@ -8,6 +8,7 @@ public class MapUuidStorage extends AbstractMapStorage{
     protected Resume doGet(String uuid, Object searchKey) {
         return storage.get(searchKey);
     }
+
     @Override
     // сюда передается в качестве searchKey ключ в мапе
     protected void doDelete(String uuid, Object searchKey) {

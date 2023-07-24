@@ -26,10 +26,4 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest{
         }
         storage.save(new Resume(UUID.randomUUID().toString(), "Petr Petrov"));
     }
-
-    @Test
-    public void getAll() {
-        Resume[] testArray = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
-        Assert.assertArrayEquals(testArray, (Resume[])storage.getAll());
-    }
 }

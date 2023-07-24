@@ -51,13 +51,8 @@ public class ListStorage extends AbstractStorage{
     }
 
     @Override
-    protected List<Resume> getAllInStorage() {
+    protected List<Resume> doGetAllSorted() {
         return storage;
-    }
-
-    @Override
-    protected List<Resume> getAllInList() {
-        return getAllInStorage();
     }
 
     @Override
