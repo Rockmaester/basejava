@@ -7,6 +7,7 @@ import com.urise.webapp.storage.SortedArrayStorage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 /**
  * Interactive test for com.urise.webapp.storage.ArrayStorage implementation
@@ -32,7 +33,7 @@ public class MainArray {
             }
             switch (params[0]) {
                 case "list":
-//                    printAll();
+                    printAll();
                     break;
                 case "size":
                     System.out.println(ARRAY_STORAGE.size());
@@ -41,24 +42,24 @@ public class MainArray {
                     resume = new Resume(uuid, "name 1");
 //                    resume.setUuid(uuid);
                     ARRAY_STORAGE.save(resume);
-//                    printAll();
+                    printAll();
                     break;
                 case "update":
                     resume = new Resume(uuid, "name 2");
 //                    resume.setUuid(uuid);
                     ARRAY_STORAGE.update(resume);
-//                    printAll();
+                    printAll();
                     break;
                 case "delete":
                     ARRAY_STORAGE.delete(uuid);
-//                    printAll();
+                    printAll();
                     break;
                 case "get":
                     System.out.println(ARRAY_STORAGE.get(uuid));
                     break;
                 case "clear":
                     ARRAY_STORAGE.clear();
-//                    printAll();
+                    printAll();
                     break;
                 case "exit":
                     return;
@@ -69,17 +70,17 @@ public class MainArray {
         }
     }
 
-//    static void printAll() {
-//        Resume[] all = (Resume[])ARRAY_STORAGE.getAll();
-//        System.out.println("----------------------------");
-//        if (all.length == 0) {
-//            System.out.println("Empty");
-//        } else {
-//            for (Resume r : all) {
-//                System.out.println(r);
-//            }
-//        }
-//        System.out.println("----------------------------");
-//    }
+    static void printAll() {
+        List<Resume> all = ARRAY_STORAGE.getAllSorted();
+        System.out.println("----------------------------");
+        if (all.size() == 0) {
+            System.out.println("Empty");
+        } else {
+            for (Resume r : all) {
+                System.out.println(r);
+            }
+        }
+        System.out.println("----------------------------");
+    }
 
 }

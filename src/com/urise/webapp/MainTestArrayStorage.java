@@ -41,20 +41,20 @@ public class MainTestArrayStorage {
         System.out.println("\nUpdate r2: ");
         ARRAY_STORAGE.update(r2);
 
-//        printAll();
+        printAll();
         System.out.println("\ndelete r1: ");
         ARRAY_STORAGE.delete(r1.getUuid());
-//        printAll();
+        printAll();
         ARRAY_STORAGE.clear();
-//        printAll();
+        printAll();
 
         System.out.println("Size: " + ARRAY_STORAGE.size());
     }
 
-//    static void printAll() {
-//        System.out.println("\nGet All");
-//        for (Resume r : (Resume[]) ARRAY_STORAGE.getAll()) {
-//            System.out.println(r);
-//        }
-//    }
+    static void printAll() {
+        System.out.println("\nGet All");
+        for (Resume r : ARRAY_STORAGE.getAllSorted()) {
+            System.out.println(r);
+        }
+    }
 }
