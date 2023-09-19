@@ -15,30 +15,18 @@ public class ResumeTestData {
         Resume RESUME_4 = new Resume("Ivan Ivanov");
 
         //Добавление контактов
-        RESUME_1.getContacts().put("email", new Contact("email", "abc@xyz.com"));
-        RESUME_1.getContacts().put("tel", new Contact("tel", "1234456"));
-
+        RESUME_1.getContacts().put(ContactType.EMAIL, new Contact("abc@xyz.com"));
+        RESUME_1.getContacts().put(ContactType.PHONE, new Contact("1234456"));
 
         // Добавление секций
-        RESUME_1.getSections().put(
-                SectionType.PERSONAL,
-                new TextSection(SectionType.PERSONAL,"Очень хороший человек")
-        );
-
-        RESUME_1.getSections().put(
-                SectionType.OBJECTIVE,
-                new TextSection(SectionType.OBJECTIVE, "Начальник транспортного цеха")
-        );
-        RESUME_1.getSections().put(
-                SectionType.ACHIEVEMENT,
-                new ListSection(SectionType.ACHIEVEMENT,
-                        new ArrayList<>(Arrays.asList("достижение 1", "достижение 2")))
+        RESUME_1.getSections().put(SectionType.PERSONAL, new TextSection("Очень хороший человек"));
+        RESUME_1.getSections().put(SectionType.OBJECTIVE, new TextSection("Начальник транспортного цеха"));
+        RESUME_1.getSections().put(SectionType.ACHIEVEMENT,
+                new ListSection(new ArrayList<>(Arrays.asList("достижение 1", "достижение 2")))
         );
         RESUME_1.getSections().put(SectionType.QUALIFICATIONS,
-                new ListSection(SectionType.QUALIFICATIONS,
-                        new ArrayList<>(Arrays.asList("навык 1", "навык 2", "навык 3")))
+                new ListSection(new ArrayList<>(Arrays.asList("навык 1", "навык 2", "навык 3")))
         );
-
 
         Period period1 = new Period(
                 LocalDate.of(2005, 9, 15),
@@ -62,8 +50,7 @@ public class ResumeTestData {
         Company company2 = new Company("Компания2", "www.hello.zzz", periods2);
         RESUME_1.getSections().put(
                 SectionType.EXPERIENCE,
-                new CompanySection(SectionType.EXPERIENCE,
-                        new ArrayList<>(Arrays.asList(company1, company2)))
+                new CompanySection(new ArrayList<>(Arrays.asList(company1, company2)))
         );
 
         Period periodLearn1 = new Period(
@@ -90,26 +77,27 @@ public class ResumeTestData {
         periodsLearning2.add(periodLearn3);
         Company trainingCompany = new Company("SchoolFactory", "www.schoolfactory.zzz", periodsLearning2);
         RESUME_1.getSections().put(
-                SectionType.EDUCATION, new CompanySection(SectionType.EDUCATION,
-                        new ArrayList<>(Arrays.asList(university, trainingCompany)))
+                SectionType.EDUCATION, new CompanySection(new ArrayList<>(Arrays.asList(university, trainingCompany)))
         );
 
-
         // Вывод в консоль
+        // Имя
         System.out.println(RESUME_1.getFullName() + "\n");
-        for(Map.Entry<String, Contact> pair : RESUME_1.getContacts().entrySet()){
-            System.out.println(pair.getKey() + ": " + pair.getValue().getContent());
+
+        // Контакты
+        for(Map.Entry<ContactType, Contact> pair : RESUME_1.getContacts().entrySet()){
+            System.out.println(pair.getKey().getTitle() + ": " + pair.getValue().getContent());
         }
 
         System.out.println();
 
+        // Секции
         for(SectionType type : SectionType.values()){
             // Печать заголовка секции
             System.out.println("     ===== " + type.getTitle() + " ===== ");
             // Извлечение секции по ключу
             Section section = RESUME_1.getSections().get(type);
-            section.printContent();
-            System.out.println();
+            System.out.println(section);
         }
     }
 }

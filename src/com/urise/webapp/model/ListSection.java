@@ -5,8 +5,7 @@ import java.util.List;
 public class ListSection extends Section{
     private List<String> strings;
 
-    public ListSection(SectionType sectionType, List<String> strings) {
-        super(sectionType);
+    public ListSection(List<String> strings) {
         this.strings = strings;
     }
 
@@ -19,14 +18,11 @@ public class ListSection extends Section{
     }
 
     @Override
-    List<String> getContent() {
-        return strings;
-    }
-
-    @Override
-    void printContent() {
+    public String toString() {
+        StringBuilder s = new StringBuilder();
         for(String str : strings){
-            System.out.println(str);
+            s.append(str).append("\n");
         }
+        return s.toString();
     }
 }

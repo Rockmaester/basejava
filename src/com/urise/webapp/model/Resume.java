@@ -12,7 +12,7 @@ public class Resume implements Comparable<Resume>{
     private final String uuid;
     private String fullName;
 
-    Map<String, Contact> contacts = new HashMap<>();
+    Map<ContactType, Contact> contacts = new HashMap<>();
 
     Map<SectionType, Section> sections = new HashMap<>();
 
@@ -38,11 +38,11 @@ public class Resume implements Comparable<Resume>{
         this.fullName = fullName;
     }
 
-    public Map<String, Contact> getContacts() {
+    public Map<ContactType, Contact> getContacts() {
         return contacts;
     }
 
-    public void setContacts(Map<String, Contact> contacts) {
+    public void setContacts(Map<ContactType, Contact> contacts) {
         this.contacts = contacts;
     }
 

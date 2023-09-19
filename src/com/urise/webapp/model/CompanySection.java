@@ -4,31 +4,26 @@ import java.util.List;
 
 public class CompanySection extends Section {
 
-    private List<Company> companies;
+    private final List<Company> companies;
 
-    public CompanySection(SectionType sectionType, List<Company> companies) {
-        super(sectionType);
+    public CompanySection(List<Company> companies) {
         this.companies = companies;
     }
 
     @Override
-    List<Company> getContent() {
-        return companies;
-    }
-
-    @Override
-    void printContent() {
-        String s = "";
+    public String toString() {
+        StringBuilder s = new StringBuilder();
         for(Company obj : companies){
-            System.out.println(obj.getName() + " " + obj.getWebsite());
+            s.append(obj.getName()).append(" ").append(obj.getWebsite()).append("\n");
             for(Period prd : obj.getPeriods()){
-                System.out.print("  " + prd.getStartDate() + " - " + prd.getEndDate() + "  ");
-                System.out.println(prd.getObjective());
+                s.append(" ").append(prd.getStartDate()).append(" - ").append(prd.getEndDate()). append(" ")/*.append("\n")*/;
+                s.append(prd.getObjective()).append("\n");
                 String dscr = prd.getDescription();
                 if(dscr != null){
-                    System.out.println(prd.getDescription());
+                    s.append(prd.getDescription()).append("\n");
                 }
             }
         }
+        return s.toString();
     }
 }

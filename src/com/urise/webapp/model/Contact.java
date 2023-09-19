@@ -1,20 +1,10 @@
 package com.urise.webapp.model;
 
 public class Contact {
-    private String type;
     private String content;
 
-    public Contact(String type, String content) {
-        this.type = type;
+    public Contact(String content) {
         this.content = content;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getContent() {
