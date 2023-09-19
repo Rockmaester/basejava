@@ -15,8 +15,8 @@ public class ResumeTestData {
         Resume RESUME_4 = new Resume("Ivan Ivanov");
 
         //Добавление контактов
-        RESUME_1.getContacts().put(ContactType.EMAIL, new Contact("abc@xyz.com"));
-        RESUME_1.getContacts().put(ContactType.PHONE, new Contact("1234456"));
+        RESUME_1.getContacts().put(ContactType.EMAIL, "abc@xyz.com");
+        RESUME_1.getContacts().put(ContactType.PHONE, "1234456");
 
         // Добавление секций
         RESUME_1.getSections().put(SectionType.PERSONAL, new TextSection("Очень хороший человек"));
@@ -28,24 +28,24 @@ public class ResumeTestData {
                 new ListSection(new ArrayList<>(Arrays.asList("навык 1", "навык 2", "навык 3")))
         );
 
-        Period period1 = new Period(
+        PeriodOfActivity period1 = new PeriodOfActivity(
                 LocalDate.of(2005, 9, 15),
                 LocalDate.of(2010, 11, 25),
                 "Должность 1", "Выполнял круг обязанностей 1"
         );
-        Period period2 = new Period(
+        PeriodOfActivity period2 = new PeriodOfActivity(
                 LocalDate.of(2010, 12, 18),
                 LocalDate.of(2020, 9, 23),
                 "Должность 2", "Выполнял круг обязанностей 2"
         );
-        List<Period> periods1 = new ArrayList<>();
+        List<PeriodOfActivity> periods1 = new ArrayList<>();
         periods1.add(period1);
         periods1.add(period2);
         Company company1 = new Company("Компания1", "www.abc.zzz", periods1);
-        Period period3 = new Period(LocalDate.of(
+        PeriodOfActivity period3 = new PeriodOfActivity(LocalDate.of(
                 2020, 9, 25),
                 LocalDate.now(),"Должность 1", "Выполнял круг обязанностей 1");
-        List<Period> periods2 = new ArrayList<>();
+        List<PeriodOfActivity> periods2 = new ArrayList<>();
         periods2.add(period3);
         Company company2 = new Company("Компания2", "www.hello.zzz", periods2);
         RESUME_1.getSections().put(
@@ -53,27 +53,27 @@ public class ResumeTestData {
                 new CompanySection(new ArrayList<>(Arrays.asList(company1, company2)))
         );
 
-        Period periodLearn1 = new Period(
+        PeriodOfActivity periodLearn1 = new PeriodOfActivity(
                 LocalDate.of(1998, 9, 1),
                 LocalDate.of(2003, 7, 25),
                 "Студент"
         );
-        Period periodLearn2 = new Period(
+        PeriodOfActivity periodLearn2 = new PeriodOfActivity(
                 LocalDate.of(2003, 9, 15),
                 LocalDate.of(2005, 8, 25),
                 "Аспирантура"
         );
-        List<Period> periodsLearning = new ArrayList<>();
+        List<PeriodOfActivity> periodsLearning = new ArrayList<>();
         periodsLearning.add(periodLearn1);
         periodsLearning.add(periodLearn2);
         Company university = new Company("Государственный институт", "www.university.zzz", periodsLearning);
 
-        Period periodLearn3 = new Period(
+        PeriodOfActivity periodLearn3 = new PeriodOfActivity(
                 LocalDate.of(2007, 9, 15),
                 LocalDate.of(2008, 8, 25),
                 "Курсы повышения квалификации"
         );
-        List<Period> periodsLearning2 = new ArrayList<>();
+        List<PeriodOfActivity> periodsLearning2 = new ArrayList<>();
         periodsLearning2.add(periodLearn3);
         Company trainingCompany = new Company("SchoolFactory", "www.schoolfactory.zzz", periodsLearning2);
         RESUME_1.getSections().put(
@@ -85,8 +85,8 @@ public class ResumeTestData {
         System.out.println(RESUME_1.getFullName() + "\n");
 
         // Контакты
-        for(Map.Entry<ContactType, Contact> pair : RESUME_1.getContacts().entrySet()){
-            System.out.println(pair.getKey().getTitle() + ": " + pair.getValue().getContent());
+        for(Map.Entry<ContactType, String> pair : RESUME_1.getContacts().entrySet()){
+            System.out.println(pair.getKey().getTitle() + ": " + pair.getValue());
         }
 
         System.out.println();

@@ -1,6 +1,6 @@
 package com.urise.webapp.model;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,9 +12,10 @@ public class Resume implements Comparable<Resume>{
     private final String uuid;
     private String fullName;
 
-    Map<ContactType, Contact> contacts = new HashMap<>();
+    Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    // Замена HashMap на EnumMap с целью оптимизации, т.к. ключи - тип enum-а. В конструкторе должен подаваться класс enum-а
 
-    Map<SectionType, Section> sections = new HashMap<>();
+    Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
@@ -38,16 +39,24 @@ public class Resume implements Comparable<Resume>{
         this.fullName = fullName;
     }
 
-    public Map<ContactType, Contact> getContacts() {
+    public Map<ContactType, String> getContacts() {
         return contacts;
     }
 
-    public void setContacts(Map<ContactType, Contact> contacts) {
+    public String getContact(ContactType type){
+        return contacts.get(type);
+    }
+
+    public void setContacts(Map<ContactType, String> contacts) {
         this.contacts = contacts;
     }
 
     public Map<SectionType, Section> getSections() {
         return sections;
+    }
+
+    public Section getSection(SectionType type){
+        return sections.get(type);
     }
 
     public void setSections(Map<SectionType, Section> sections) {
