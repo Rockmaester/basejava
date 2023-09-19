@@ -1,30 +1,29 @@
 package com.urise.webapp.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ResumeTestData {
+
     public static void main(String[] args) {
+        ResumeTestData.printResumeToConsole(ResumeTestData.getTestResume(UUID.randomUUID().toString(), "Ivan Ivanov"));
+    }
+
+    public static Resume getTestResume(String uuid, String fullName){
         // Создание объекта резюме
-        Resume RESUME_1 = new Resume("Ivan Ivanov");
-        Resume RESUME_2 = new Resume("Petr Petrov");
-        Resume RESUME_3 = new Resume("Alexander Aleksandrov");
-        Resume RESUME_4 = new Resume("Ivan Ivanov");
+        Resume resume = new Resume(uuid, fullName);
 
         //Добавление контактов
-        RESUME_1.getContacts().put(ContactType.EMAIL, "abc@xyz.com");
-        RESUME_1.getContacts().put(ContactType.PHONE, "1234456");
+        resume.getContacts().put(ContactType.EMAIL, "abc@xyz.com");
+        resume.getContacts().put(ContactType.PHONE, "1234456");
 
         // Добавление секций
-        RESUME_1.getSections().put(SectionType.PERSONAL, new TextSection("Очень хороший человек"));
-        RESUME_1.getSections().put(SectionType.OBJECTIVE, new TextSection("Начальник транспортного цеха"));
-        RESUME_1.getSections().put(SectionType.ACHIEVEMENT,
+        resume.getSections().put(SectionType.PERSONAL, new TextSection("Очень хороший человек"));
+        resume.getSections().put(SectionType.OBJECTIVE, new TextSection("Начальник транспортного цеха"));
+        resume.getSections().put(SectionType.ACHIEVEMENT,
                 new ListSection(new ArrayList<>(Arrays.asList("достижение 1", "достижение 2")))
         );
-        RESUME_1.getSections().put(SectionType.QUALIFICATIONS,
+        resume.getSections().put(SectionType.QUALIFICATIONS,
                 new ListSection(new ArrayList<>(Arrays.asList("навык 1", "навык 2", "навык 3")))
         );
 
@@ -48,7 +47,7 @@ public class ResumeTestData {
         List<PeriodOfActivity> periods2 = new ArrayList<>();
         periods2.add(period3);
         Company company2 = new Company("Компания2", "www.hello.zzz", periods2);
-        RESUME_1.getSections().put(
+        resume.getSections().put(
                 SectionType.EXPERIENCE,
                 new CompanySection(new ArrayList<>(Arrays.asList(company1, company2)))
         );
@@ -76,27 +75,28 @@ public class ResumeTestData {
         List<PeriodOfActivity> periodsLearning2 = new ArrayList<>();
         periodsLearning2.add(periodLearn3);
         Company trainingCompany = new Company("SchoolFactory", "www.schoolfactory.zzz", periodsLearning2);
-        RESUME_1.getSections().put(
+        resume.getSections().put(
                 SectionType.EDUCATION, new CompanySection(new ArrayList<>(Arrays.asList(university, trainingCompany)))
         );
+        return resume;
+    }
 
+    public static void printResumeToConsole(Resume resume){
         // Вывод в консоль
         // Имя
-        System.out.println(RESUME_1.getFullName() + "\n");
+        System.out.println(resume.getFullName() + "\n");
 
         // Контакты
-        for(Map.Entry<ContactType, String> pair : RESUME_1.getContacts().entrySet()){
+        for(Map.Entry<ContactType, String> pair : resume.getContacts().entrySet()){
             System.out.println(pair.getKey().getTitle() + ": " + pair.getValue());
         }
-
         System.out.println();
-
         // Секции
         for(SectionType type : SectionType.values()){
             // Печать заголовка секции
             System.out.println("     ===== " + type.getTitle() + " ===== ");
             // Извлечение секции по ключу
-            Section section = RESUME_1.getSections().get(type);
+            Section section = resume.getSections().get(type);
             System.out.println(section);
         }
     }
