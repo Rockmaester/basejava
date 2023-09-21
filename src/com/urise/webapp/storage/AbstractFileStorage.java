@@ -14,7 +14,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File>{
     private final File directory;
 
     protected abstract void doWrite(Resume resume, File file) throws IOException;
-    protected abstract Resume doRead(File file);
+    protected abstract Resume doRead(File file) throws IOException;
+    protected abstract boolean doDelete(File file);
 
     protected AbstractFileStorage(File directory) {
         Objects.requireNonNull(directory, "Directory mast not be null");
@@ -34,7 +35,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File>{
             throw new StorageException("Storage is null");
         }
         for(File file : files){
-            boolean result = file.delete();
+            boolean result = doDelete(file);
             if(!result){
                 throw new StorageException("Storage clearing error");
             }
@@ -73,15 +74,22 @@ public abstract class AbstractFileStorage extends AbstractStorage<File>{
 
     @Override
     protected Resume doGet(String uuid, File file) {
-        return doRead(file);
+        try {
+            return doRead(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     protected List<Resume> doGetAllSorted() {
         List<Resume> list = new ArrayList<>();
         File[] files = directory.listFiles();
-        for(File file : Objects.requireNonNull(files, "list of files is null")){
-            list.add(doRead(file));
+        if (files == null) {
+            throw new StorageException("List of files is null");
+        }
+        for(File file : files){
+            list.add(doGet(file.getName(), file));
         }
         return list;
     }
@@ -99,6 +107,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File>{
 
     @Override
     public int size() {
-        return Objects.requireNonNull(directory.listFiles(), "directory is null").length;
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("List of files returns null");
+        }
+        return files.length;
     }
 }

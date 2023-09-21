@@ -70,7 +70,7 @@ public class MainArray {
         }
     }
 
-    static void printAll() {
+    static void printAll() throws IOException {
         List<Resume> all = ARRAY_STORAGE.getAllSorted();
         System.out.println("----------------------------");
         if (all.size() == 0) {

@@ -3,10 +3,12 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.ExistStrorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.ResumeTestData;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +19,10 @@ public abstract class AbstractStorageTest {
     protected static final String UUID_3 = "uuid3";
     protected static final String UUID_4 = "uuid4";
     protected static final String UUID_NOT_EXIST = "dummy";
-    protected final Resume RESUME_1 = new Resume(UUID_1, "Ivan Ivanov");
-    protected final Resume RESUME_2 = new Resume(UUID_2, "Petr Petrov");
-    protected final Resume RESUME_3 = new Resume(UUID_3, "Alexander Aleksandrov");
-    protected final Resume RESUME_4 = new Resume(UUID_4, "Ivan Ivanov");
+    protected final Resume RESUME_1 = ResumeTestData.getTestResume(UUID_1, "Ivan Ivanov");
+    protected final Resume RESUME_2 = ResumeTestData.getTestResume(UUID_2, "Petr Petrov");
+    protected final Resume RESUME_3 = ResumeTestData.getTestResume(UUID_3, "Alexander Aleksandrov");
+    protected final Resume RESUME_4 = ResumeTestData.getTestResume(UUID_4, "Ivan Ivanov");
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -35,7 +37,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAllSorted(){
+    public void getAllSorted() throws IOException {
         storage.save(RESUME_4);
 
         List<Resume> testList = new ArrayList<>();
@@ -67,7 +69,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume upd = new Resume(UUID_1, "Sidor Sidorov");
+        Resume upd = ResumeTestData.getTestResume(UUID_1, "Sidor Sidorov");
         storage.update(upd);
         Assert.assertEquals(RESUME_1, upd);
         Assert.assertNotSame(RESUME_1, upd);
