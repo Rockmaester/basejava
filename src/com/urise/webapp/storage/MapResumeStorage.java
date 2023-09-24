@@ -10,7 +10,7 @@ public class MapResumeStorage extends AbstractMapStorage<Resume>{
     }
     @Override
     // сюда передается в качестве searchKey само резюме
-    protected void doDelete(String uuid, Resume searchKey) {
+    protected void doDelete(Resume searchKey) {
         storage.remove(searchKey.getUuid());
     }
 

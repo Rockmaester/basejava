@@ -39,7 +39,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer>{
     }
 
     @Override
-    public final void doDelete(String uuid, Integer searchKey) {
+    public final void doDelete(Integer searchKey) {
         deleteResume((int)searchKey);
         storage[size - 1] = null;
         size--;

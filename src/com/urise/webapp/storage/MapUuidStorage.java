@@ -11,7 +11,7 @@ public class MapUuidStorage extends AbstractMapStorage<String>{
 
     @Override
     // сюда передается в качестве searchKey ключ в мапе
-    protected void doDelete(String uuid, String searchKey) {
+    protected void doDelete(String searchKey) {
         storage.remove(searchKey);
     }
 

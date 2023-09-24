@@ -25,7 +25,7 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     protected abstract void doUpdate(Resume resume, SK searchKey);
 
-    protected abstract void doDelete(String uuid, SK searchKey);
+    protected abstract void doDelete(SK searchKey);
 
     protected abstract Resume doGet(String uuid, SK searchKey);
 
@@ -58,7 +58,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     public final void delete(String uuid) {
         LOG.info("Delete: " + uuid);
         SK searchKey = getExistingSearchKey(uuid);
-        doDelete(uuid, searchKey);
+        doDelete(searchKey);
     }
 
     @Override

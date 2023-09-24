@@ -15,7 +15,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File>{
 
     protected abstract void doWrite(Resume resume, File file) throws IOException;
     protected abstract Resume doRead(File file) throws IOException;
-    protected abstract boolean doDelete(File file);
 
     protected AbstractFileStorage(File directory) {
         Objects.requireNonNull(directory, "Directory mast not be null");
@@ -35,10 +34,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File>{
             throw new StorageException("Storage is null");
         }
         for(File file : files){
-            boolean result = doDelete(file);
-            if(!result){
-                throw new StorageException("Storage clearing error");
-            }
+            doDelete(file);
         }
     }
 
@@ -65,7 +61,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File>{
     }
 
     @Override
-    protected void doDelete(String uuid, File file) {
+    protected void doDelete(File file) {
         boolean result = file.delete();
         if(!result){
             throw new StorageException("Storage clearing error");
