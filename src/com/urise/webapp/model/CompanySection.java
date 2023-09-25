@@ -1,5 +1,6 @@
 package com.urise.webapp.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -7,6 +8,9 @@ public class CompanySection extends Section {
 
     private final List<Company> companies;
 
+    public CompanySection(Company... companies) {
+        this(Arrays.asList(companies));
+    }
     public CompanySection(List<Company> companies) {
         Objects.requireNonNull(companies, "list of companies must not be null");
         this.companies = companies;
@@ -21,7 +25,7 @@ public class CompanySection extends Section {
         StringBuilder s = new StringBuilder();
         for(Company obj : companies){
             s.append(obj.getLink().getCompanyName()).append(" ").append(obj.getLink().getUrl()).append("\n");
-            for(PeriodOfActivity prd : obj.getPeriods()){
+            for(Company.Position prd : obj.getPositions()){
                 s.append(" ").append(prd.getStartDate()).append(" - ").append(prd.getEndDate()). append(" ")/*.append("\n")*/;
                 s.append(prd.getObjective()).append("\n");
                 String dscr = prd.getDescription();

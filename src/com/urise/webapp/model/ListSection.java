@@ -1,10 +1,15 @@
 package com.urise.webapp.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class ListSection extends Section{
     private List<String> items;
+
+    public ListSection(String... items) { // varargs
+        this(Arrays.asList(items));
+    }
 
     public ListSection(List<String> items) {
         Objects.requireNonNull(items, "list of items must not be null");

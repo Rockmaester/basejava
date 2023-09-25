@@ -30,11 +30,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File>{
     @Override
     protected void clearStorage() {
         File[] files = directory.listFiles();
-        if(files == null) {
-            throw new StorageException("Storage is null");
-        }
-        for(File file : files){
-            doDelete(file);
+        if(files != null) {
+            for(File file : files){
+                doDelete(file);
+            }
         }
     }
 
@@ -45,10 +44,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File>{
             if(!result){
                 throw new StorageException("File creating error");
             }
-            doWrite(resume, file);
+
         } catch (IOException e) {
-            throw new StorageException("IO Error", file.getName(), e);
+            throw new StorageException("Couldn't create file " + file.getAbsolutePath(), file.getName(), e);
         }
+        doUpdate(resume, file);
     }
 
     @Override
@@ -56,7 +56,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File>{
         try {
             doWrite(resume, file);
         } catch (IOException e) {
-            throw new StorageException("IO Error", file.getName(), e);
+            throw new StorageException("File writing error", file.getName(), e);
         }
     }
 
@@ -64,7 +64,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File>{
     protected void doDelete(File file) {
         boolean result = file.delete();
         if(!result){
-            throw new StorageException("Storage clearing error");
+            throw new StorageException("Storage clearing error", file.getName());
         }
     }
 
@@ -73,7 +73,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File>{
         try {
             return doRead(file);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new StorageException("File reading error", file.getName(), e);
         }
     }
 
@@ -103,10 +103,11 @@ public abstract class AbstractFileStorage extends AbstractStorage<File>{
 
     @Override
     public int size() {
-        File[] files = directory.listFiles();
-        if (files == null) {
+        // Фикс. Замена метода listFiles() на list() - нет нужды генерить объекты File через listFiles для уточнения количества.
+        String[] listOfFiles = directory.list() ;
+        if (listOfFiles == null) {
             throw new StorageException("List of files returns null");
         }
-        return files.length;
+        return listOfFiles.length;
     }
 }

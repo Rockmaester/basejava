@@ -63,6 +63,14 @@ public class Resume implements Comparable<Resume>{
         this.sections = sections;
     }
 
+    public void addContact(ContactType contactType, String value){
+        contacts.put(contactType, value);
+    }
+
+    public void addSection(SectionType sectionType, Section section){
+        sections.put(sectionType, section);
+    }
+
     @Override
     public String toString() {
         return "резюме под номером " + uuid;
