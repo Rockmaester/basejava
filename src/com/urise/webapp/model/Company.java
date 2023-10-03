@@ -2,6 +2,7 @@ package com.urise.webapp.model;
 
 import com.urise.webapp.util.DateUtil;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -11,8 +12,7 @@ import java.util.Objects;
 
 import static com.urise.webapp.util.DateUtil.NOW;
 
-public class Company {
-
+public class Company implements Serializable {
     private final Link link;
     private List<Position> positions = new ArrayList<>();
 
@@ -24,15 +24,12 @@ public class Company {
         this.link = link;
         this.positions = positions;
     }
-
     public List<Position> getPositions() {
         return positions;
     }
-
     public Link getLink() {
         return link;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -40,7 +37,6 @@ public class Company {
         Company company = (Company) o;
         return Objects.equals(link, company.link) && Objects.equals(positions, company.positions);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(link, positions);
@@ -56,7 +52,7 @@ public class Company {
 
 
     // Общее правило: если есть возможность сделать внутренний класс статическим - нужно делать статическим (если ему не нужны члены внешнего класса)
-    public static class Position {
+    public static class Position implements Serializable{
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String objective;

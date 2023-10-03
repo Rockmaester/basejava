@@ -1,9 +1,10 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 // Создан доп.класс, т.к. конструкция "имя-ссылка" достаточно распространенная и может быть еще понадобится - вынесена в отдельный класс.
-public class Link {
+public class Link implements Serializable {
     private final String companyName;
     private final String url;
 
