@@ -6,7 +6,7 @@ import com.urise.webapp.model.Resume;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage<Integer>{
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     protected int size;
     protected static final int STORAGE_LIMIT = 10000;
@@ -24,30 +24,30 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer>{
 
     @Override
     protected final void doSave(Resume resume, Integer searchKey) {
-        if(size == storage.length){
+        if (size == storage.length) {
             throw new LimitExceedException();
         } else {
-            saveResume(resume, (int)searchKey);
+            saveResume(resume, (int) searchKey);
             size++;
         }
     }
 
     @Override
-    protected final void doUpdate(Resume resume, Integer searchKey){
-        storage[(int)searchKey] = resume;
+    protected final void doUpdate(Resume resume, Integer searchKey) {
+        storage[(int) searchKey] = resume;
         System.out.println("Резюме \"" + resume.getUuid() + "\" обновлено.");
     }
 
     @Override
     public final void doDelete(Integer searchKey) {
-        deleteResume((int)searchKey);
+        deleteResume((int) searchKey);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
     protected final Resume doGet(String uuid, Integer searchKey) {
-        return storage[(int)searchKey];
+        return storage[(int) searchKey];
     }
 
     @Override
@@ -61,6 +61,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer>{
 
     @Override
     protected boolean isExist(Integer searchKey) {
-        return (int)searchKey > -1;
+        return (int) searchKey > -1;
     }
 }

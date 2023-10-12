@@ -2,8 +2,11 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.serializationStrategy.SerializationStrategy;
+import com.urise.webapp.storage.serializationStrategy.StrategyOOS;
 
 import java.io.*;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,27 +15,23 @@ import java.util.List;
 import java.util.Objects;
 
 
-public abstract class AbstractPathStorage extends AbstractStorage<Path>{
+public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
 
-//    protected abstract void doWrite(Resume resume, OutputStream outputStream) throws IOException;
-//    protected abstract Resume doRead(InputStream inputStream) throws IOException;
+    protected SerializationStrategy serializationStrategy = new StrategyOOS();
 
-    // Внедрение паттерна "стратегия".
-    protected SerializationStrategy serializationStrategy;
-
-    public void doWrite(Resume resume, OutputStream outputStream){
+    public void doWrite(Resume resume, OutputStream outputStream) {
         serializationStrategy.doWrite(resume, outputStream);
     }
 
-    public Resume doRead(InputStream inputStream){
+    public Resume doRead(InputStream inputStream) {
         return serializationStrategy.doRead(inputStream);
     }
 
-    protected AbstractPathStorage(String dir) {
+    protected PathStorage(String dir) {
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "Directory mast not be null");
-        if (!Files.isDirectory(directory) || !Files.isWritable(directory)){
+        if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
     }
@@ -49,8 +48,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path>{
     @Override
     protected void doSave(Resume resume, Path file) {
         try {
-            boolean result = file.toFile().createNewFile();
-            if(!result){
+            if (!file.toFile().createNewFile()) {
                 throw new StorageException("File creating error");
             }
         } catch (IOException e) {
@@ -89,12 +87,14 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path>{
     @Override
     protected List<Resume> doGetAllSorted() {
         List<Resume> list = new ArrayList<>();
-        File[] files = directory.toFile().listFiles();
-        if (files == null) {
-            throw new StorageException("List of files is null");
-        }
-        for(File file : files){
-            list.add(doGet(file.getName(), file.toPath()));
+        try (DirectoryStream<Path> files = Files.newDirectoryStream(directory)) {
+            for (Path file : files) {
+                if (!Files.isDirectory(file)) {
+                    list.add(doGet(String.valueOf(file.getFileName()), file));
+                }
+            }
+        } catch (IOException e) {
+            throw new StorageException("Directory reading error");
         }
         return list;
     }
@@ -102,7 +102,7 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path>{
     @Override
     protected Path getSearchKey(String uuid) {
         // Файлы, которые будут хранить резюме, будут иметь имя = uuid
-        return new File(String.valueOf(directory), uuid).toPath();
+        return directory.resolve(uuid);
     }
 
     @Override

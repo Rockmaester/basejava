@@ -1,4 +1,4 @@
-package com.urise.webapp.storage;
+package com.urise.webapp.storage.serializationStrategy;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
@@ -8,7 +8,7 @@ import java.io.*;
 public class StrategyOOS implements SerializationStrategy {
     @Override
     public void doWrite(Resume resume, OutputStream outputStream) {
-        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream)){
+        try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream)) {
             objectOutputStream.writeObject(resume);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -16,8 +16,8 @@ public class StrategyOOS implements SerializationStrategy {
     }
 
     @Override
-    public Resume doRead(InputStream inputStream)  {
-        try(ObjectInputStream objectInputStream = new ObjectInputStream(inputStream)){
+    public Resume doRead(InputStream inputStream) {
+        try (ObjectInputStream objectInputStream = new ObjectInputStream(inputStream)) {
             return (Resume) objectInputStream.readObject();
         } catch (ClassNotFoundException | IOException e) {
             /* Такая ошибка (ClassNotFoundException) может возникнуть, если Resume нет в ClassPath, например, если приложение
