@@ -3,7 +3,6 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.serializationStrategy.SerializationStrategy;
-import com.urise.webapp.storage.serializationStrategy.StrategyOOS;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class FileStorage extends AbstractStorage<File> implements SerializationS
 
     private final File directory;
 
-    protected SerializationStrategy serializationStrategy = new StrategyOOS();
+    protected SerializationStrategy serializationStrategy;
 
     public void doWrite(Resume resume, OutputStream outputStream) {
         serializationStrategy.doWrite(resume, outputStream);
@@ -26,7 +25,7 @@ public class FileStorage extends AbstractStorage<File> implements SerializationS
     }
 
 
-    protected FileStorage(File directory) {
+    protected FileStorage(File directory, SerializationStrategy serializationStrategy) {
         Objects.requireNonNull(directory, "Directory must not be null");
         if (!directory.isDirectory()) { // проверка на то, что это директория, а не файл
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
@@ -35,12 +34,12 @@ public class FileStorage extends AbstractStorage<File> implements SerializationS
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
         this.directory = directory;
+        this.serializationStrategy = serializationStrategy;
     }
 
     @Override
     protected void clearStorage() {
-        File[] files = directory.listFiles();
-        checkDirectoryIsNull(files);
+        File[] files = checkDirectoryIsNullOrReturn();
         for (File file : files) {
             doDelete(file);
         }
@@ -75,7 +74,7 @@ public class FileStorage extends AbstractStorage<File> implements SerializationS
     }
 
     @Override
-    protected Resume doGet(String uuid, File file) {
+    protected Resume doGet(File file) {
         try {
             return doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
@@ -86,10 +85,9 @@ public class FileStorage extends AbstractStorage<File> implements SerializationS
     @Override
     protected List<Resume> doGetAllSorted() {
         List<Resume> list = new ArrayList<>();
-        File[] files = directory.listFiles();
-        checkDirectoryIsNull(files);
+        File[] files = checkDirectoryIsNullOrReturn();
         for (File file : files) {
-            list.add(doGet(file.getName(), file));
+            list.add(doGet(file));
         }
         return list;
     }
@@ -107,14 +105,14 @@ public class FileStorage extends AbstractStorage<File> implements SerializationS
 
     @Override
     public int size() {
-        File[] listOfFiles = directory.listFiles();
-        checkDirectoryIsNull(listOfFiles);
-        return listOfFiles.length;
+        return checkDirectoryIsNullOrReturn().length;
     }
 
-    private void checkDirectoryIsNull(File[] listOfFiles) {
-        if (listOfFiles == null) {
+    private File[] checkDirectoryIsNullOrReturn() {
+        File[] files = directory.listFiles();
+        if (files == null) {
             throw new StorageException("List of files returns null");
         }
+        return files;
     }
 }

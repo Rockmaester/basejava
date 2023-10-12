@@ -5,7 +5,7 @@ import com.urise.webapp.model.Resume;
 public class MapUuidStorage extends AbstractMapStorage<String>{
 
     @Override
-    protected Resume doGet(String uuid, String searchKey) {
+    protected Resume doGet(String searchKey) {
         return storage.get(searchKey);
     }
 

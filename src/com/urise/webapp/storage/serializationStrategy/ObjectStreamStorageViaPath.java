@@ -4,7 +4,6 @@ import com.urise.webapp.storage.PathStorage;
 
 public class ObjectStreamStorageViaPath extends PathStorage {
     public ObjectStreamStorageViaPath(String directory) {
-        super(directory);
-        this.serializationStrategy = new StrategyOOS();
+        super(directory, new StrategyOOS());
     }
 }

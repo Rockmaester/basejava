@@ -46,7 +46,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected final Resume doGet(String uuid, Integer searchKey) {
+    protected final Resume doGet(Integer searchKey) {
         return storage[(int) searchKey];
     }
 

@@ -3,22 +3,20 @@ package com.urise.webapp.storage;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.serializationStrategy.SerializationStrategy;
-import com.urise.webapp.storage.serializationStrategy.StrategyOOS;
 
 import java.io.*;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
 
-    protected SerializationStrategy serializationStrategy = new StrategyOOS();
+    protected SerializationStrategy serializationStrategy;
 
     public void doWrite(Resume resume, OutputStream outputStream) {
         serializationStrategy.doWrite(resume, outputStream);
@@ -28,12 +26,13 @@ public class PathStorage extends AbstractStorage<Path> {
         return serializationStrategy.doRead(inputStream);
     }
 
-    protected PathStorage(String dir) {
+    protected PathStorage(String dir, SerializationStrategy serializationStrategy) {
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "Directory mast not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
+        this.serializationStrategy = serializationStrategy;
     }
 
     @Override
@@ -76,7 +75,7 @@ public class PathStorage extends AbstractStorage<Path> {
     }
 
     @Override
-    protected Resume doGet(String uuid, Path file) {
+    protected Resume doGet(Path file) {
         try {
             return doRead(new BufferedInputStream(Files.newInputStream(file)));
         } catch (IOException e) {
@@ -86,17 +85,11 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> doGetAllSorted() {
-        List<Resume> list = new ArrayList<>();
-        try (DirectoryStream<Path> files = Files.newDirectoryStream(directory)) {
-            for (Path file : files) {
-                if (!Files.isDirectory(file)) {
-                    list.add(doGet(String.valueOf(file.getFileName()), file));
-                }
-            }
+        try {
+            return Files.list(directory).map(path -> doGet(path)).collect(Collectors.toList());
         } catch (IOException e) {
             throw new StorageException("Directory reading error");
         }
-        return list;
     }
 
     @Override

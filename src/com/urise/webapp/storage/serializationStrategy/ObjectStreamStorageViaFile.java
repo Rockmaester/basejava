@@ -6,7 +6,6 @@ import java.io.File;
 
 public class ObjectStreamStorageViaFile extends FileStorage {
     public ObjectStreamStorageViaFile(File directory) {
-        super(directory);
-        this.serializationStrategy = new StrategyOOS();
+        super(directory, new StrategyOOS());
     }
 }
