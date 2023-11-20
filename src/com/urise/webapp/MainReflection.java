@@ -18,7 +18,7 @@ public class MainReflection {
         field.set(resume, "02");
         System.out.println("field.get(resume): " + field.get(resume));
 
-        // TODO: invoke resume.toString via reflection
+        //  TODO: invoke resume.toString via reflection
 
         // 1 способ
         Method[] methods = resume.getClass().getDeclaredMethods();

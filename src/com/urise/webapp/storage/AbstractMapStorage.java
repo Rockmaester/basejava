@@ -30,7 +30,7 @@ public abstract class AbstractMapStorage<SK> extends AbstractStorage<SK>{
     }
 
     @Override
-    protected List<Resume> doGetAllSorted() {
+    protected List<Resume> doCopyAll() {
         return new ArrayList<>(storage.values());
     }
 

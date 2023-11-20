@@ -12,10 +12,13 @@ public class StorageException extends RuntimeException{
         super(message);
     }
 
+    public StorageException(String message, Exception e) {
+        this(message, null, e); // чтобы не дублировать - делаем переадресацию к конструктору с бОльшим количеством аргументов
+    }
+
     public StorageException(String message, String name, Exception e) {
         super(message, e);
         this.uuid = uuid;
-
     }
 
     public String getUuid() {

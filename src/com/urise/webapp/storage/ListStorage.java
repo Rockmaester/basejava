@@ -51,7 +51,7 @@ public class ListStorage extends AbstractStorage<Integer>{
     }
 
     @Override
-    protected List<Resume> doGetAllSorted() {
+    protected List<Resume> doCopyAll() {
         return storage;
     }
 
